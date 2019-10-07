@@ -1,5 +1,4 @@
 const app = {
-  // Primera Historia de Usuario-- Acceso al sistema
   userLoginValidate: (user, password) => {
     let msg = '';
     if (user !== '' && password !== '') {
@@ -18,12 +17,11 @@ const app = {
     return msg;
   },
 
-  // Segunda Historia de Usuario-- Mostrar los campeones
   replaceChampsImg: (data, character) => {
-    const arrDataCurated = Object.values(data); // Devuelve un array que contiene las propiedades del objeto
+    const arrDataCurated = Object.values(data); 
     for (let i = 0; i < arrDataCurated.length; i++) {
-      if (character.hasOwnProperty(arrDataCurated[i].id)) { // Devuelve un booleano indicando si el objeto tiene la propiedad especificada
-        arrDataCurated[i].splash = championsImg[arrDataCurated[i].id]; // si el valor devuelto es true, el splash cambia a el valor indicado en obj
+      if (character.hasOwnProperty(arrDataCurated[i].id)) { 
+        arrDataCurated[i].splash = championsImg[arrDataCurated[i].id]; 
       }
     } return arrDataCurated;
   },
@@ -57,52 +55,34 @@ const app = {
     return arrSelectedData;
   },
 
-  //  Orden Alfabetico
-  sortChampionsAz: (data, clickOrder) => {
-    const arrSortName = data.sort((ab, bc) => {
-      /* a es menor que b según criterio de ordenamiento */
-      if (ab.name > bc.name) {
-        return 1;
-      } if (ab.name < bc.name) {
-        return -1;
-      }
+  sortNameAttackdamage: (data, clickOrder, sortAttribute) => {
+    const arrSortsortAttribute = data.slice().sort((ab, bc) => {
+      return ab[sortAttribute] > bc[sortAttribute] ? 1 : bc[sortAttribute] > ab[sortAttribute] ? -1 : 0;
     });
     if (clickOrder === '0') {
-      return arrSortName;
-    }
-    if (clickOrder === '1') {
-      return arrSortName.reverse();
+      return arrSortsortAttribute;
+    } else {
+      return arrSortsortAttribute.reverse();
     }
   },
 
-  // Orden de Daño de attack Ascendente y Descendente
-
-  sortAttackdamage: (data, clickOrder) => {
-    const arrSortAttackdamage = data.sort((ab, bc) => {
-      if (ab.attackdamage > bc.attackdamage) {
-        return 1;
-      } if (ab.attackdamage < bc.attackdamage) {
-        return -1;
-      }
-    });
-    if (clickOrder === '1') {
-      return arrSortAttackdamage;
-    }
-    if (clickOrder === '0') {
-      return arrSortAttackdamage.reverse();
-    }
-  },
-
-  // Filtro por tipo
   selectTypeChampions: (data, type) => {
     const filterTypeChamp = data.filter((obj) => {
+      let currentType = [];
       if (type !== 'Total') {
-        return (obj.tags[0] === type || obj.tags[1] === type); // 0 y 1 para repetir campeones
+        for (let i = 0; i < obj.tags.length; i++) {
+          if (obj.tags[i] === type) {
+            currentType.push(obj.tags[i]);
+            return currentType; 
+          }
+        }
       } else {
         return data;
       }
     });
     return filterTypeChamp;
   },
+  
 };
 window.app = app;
+
